@@ -1,146 +1,160 @@
-# Crime Data Analysis
+# Crime Data Analysis of the West Midlands Street Crime Dataset (October 2024)
 
-## Group Members
+## Project Description
 
-- Samuel Mwangi
-- LisaMarie Wanderwa
+This project analyzes crime data reported by West Midlands Police for October 2024 using Python. The project involves cleaning the dataset, performing exploratory data analysis (EDA), creating visualizations, and developing an interactive Streamlit dashboard to present the findings.
 
+---
 
-# Project Description
+## Problem Statement
 
-This project analyzes street crime data reported by West Midlands Police for October 2024. The objective is to clean the dataset, explore crime patterns, create visualizations, and build an interactive dashboard using Streamlit.
+Crime datasets contain large amounts of information that can be difficult to interpret without proper analysis. This project aims to analyze reported crimes to identify common crime types, crime hotspots, neighbourhoods with the highest crime rates, and the outcomes of reported crimes. The findings can help provide a better understanding of crime patterns within the West Midlands.
 
-The project was completed as part of the DSA 1080 Programming for Data Science course.
+---
 
+## Dataset
 
-# Dataset
+- **Source:** UK Police Data (West Midlands Street Crime Dataset – October 2024)
+- **Number of rows:** 28,444
+- **Number of columns:** 11
 
-**Dataset:** West Midlands Street Crime Dataset (October 2024)
-
-The dataset contains information such as:
+### Key Columns
 
 - Crime ID
 - Month
-- Police Force
-- Location
-- LSOA (Neighbourhood)
-- Crime Type
+- Reported by
+- Falls within
 - Longitude
 - Latitude
+- Location
+- LSOA Name
+- Crime Type
 - Last Outcome Category
 
+---
 
-# Technologies Used
+## Tools Used
 
 - Python
 - Pandas
 - NumPy
 - Matplotlib
 - Seaborn
-- Streamlit
 - Jupyter Notebook
+- Streamlit
 - Git & GitHub
 
-# Project Structure
+---
 
-DSA-1080-project/
-│
-├── app.py
-├── README.md
-├── requirements.txt
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── notebooks/
-│   └── analysis.ipynb
-│
-└── visuals/
+## Data Cleaning
 
-# Data Cleaning
+The following cleaning steps were performed:
 
-The dataset was prepared by:
+- Removed duplicate records.
+- Checked for missing values.
+- Renamed columns to improve readability.
+- Verified data types using `df.info()`.
+- Identified numerical outliers using the IQR method.
+- Created a cleaned dataset for analysis.
+- Exported the cleaned dataset to the `data/processed` folder.
 
-- Removing duplicate records
-- Checking for missing values
-- Renaming columns
-- Formatting the Month column
-- Creating a cleaned dataset for analysis
+---
 
+## Analysis Questions
 
-# Analysis Questions
+The project answered the following questions:
 
-The project answers questions such as:
+1. What are the most common types of crime?
+2. Which locations recorded the highest number of crimes?
+3. Which LSOAs (neighbourhoods) experienced the highest crime rates?
+4. Which police force recorded the highest number of reported crimes?
+5. How are crime locations distributed geographically?
+6. What percentage of crimes fall into each crime category?
+7. What are the most common crime outcomes?
+8. Is there a relationship between crime type and crime outcome?
+9. Which crime types are most common in the top 10 high-crime neighbourhoods?
+10. What percentage of crimes resulted in each outcome category?
 
-1. What are the most common crime types?
-2. Which locations have the highest number of crimes?
-3. Which neighbourhoods (LSOAs) experience the highest crime levels?
-4. What percentage of crimes fall into each category?
-5. What are the most common crime outcomes?
-6. Is there a relationship between crime type and crime outcome?
-7. Which crime types are most common in the top 10 high-crime LSOAs?
-8. What percentage of crimes resulted in each outcome category?
-9. Which crime outcome occurs most frequently?
+---
 
+## Visualizations
 
+The project includes the following visualizations:
 
-# Visualizations
+- Bar chart showing the number of crimes by crime type.
+- Horizontal bar chart of the top 10 crime outcomes.
+- Pie chart showing the percentage distribution of crime types.
+- Scatter plot showing the geographical distribution of crime locations.
+- Heatmap illustrating the relationship between crime types and crime outcomes.
+- Stacked bar chart showing crime types across the top 10 high-crime LSOAs.
+- Box plot used to identify longitude outliers during data cleaning.
 
-The project includes:
+All visualizations are stored in the **visuals/** folder.
 
-- Bar Chart
-- Pie Chart
-- Heatmap
-- Horizontal Bar Chart
-- Scatter Plot
-- Box Plot
+---
 
-All charts are saved in the **visuals/** folder.
+## Key Insights
 
+1. Violence and sexual offences were the most frequently reported crimes.
+2. Crime was concentrated in a relatively small number of neighbourhoods (LSOAs).
+3. The majority of reported crimes came from the West Midlands Police area.
+4. Different crime types showed different outcome patterns, as observed in the heatmap.
+5. Crime locations formed geographical clusters rather than being evenly distributed.
 
+---
 
-# Key Insights
+## Recommendations
 
-- Violence and sexual offences were the most frequently reported crimes.
-- Shoplifting and vehicle crime were among the next most common crime categories.
-- Crime was concentrated in a small number of neighbourhoods.
-- Different crime types showed different outcome patterns.
-- Geographic data showed clusters of crime locations.
+Based on the analysis, the following recommendations are suggested:
 
+- Allocate additional police resources to high-crime neighbourhoods.
+- Increase crime prevention initiatives targeting violence and sexual offences.
+- Monitor crime hotspots regularly using geographical analysis.
+- Investigate crime categories with low resolution rates to improve policing strategies.
+- Continue collecting and analysing crime data to monitor trends over time.
 
+---
 
-# Interactive Dashboard
+## How to Run the Project
 
-A Streamlit dashboard was developed to allow users to:
+1. Clone the repository
 
-- Filter crime data
-- View summary statistics
-- Explore interactive visualizations
-- Browse the cleaned dataset
-- Download filtered data
-
-
-
-# Running the Project
-
-Clone the repository:
-
-bash
+```bash
 git clone https://github.com/samuelkimaru2006-png/DSA-1080-project.git
+```
 
+2. Navigate to the project folder
 
-Install the required packages:
+```bash
+cd DSA-1080-project
+```
 
-bash
+3. Install the required libraries
+
+```bash
 pip install -r requirements.txt
+```
 
+4. Open the Jupyter Notebook
 
-Run the dashboard:
-bash
+```bash
+jupyter notebook
+```
+
+5. Open `analysis.ipynb` and run all cells.
+
+6. To launch the interactive dashboard, run:
+
+```bash
 python -m streamlit run app.py
+```
 
+---
 
-# Repository
+## Author
 
-https://github.com/samuelkimaru2006-png/DSA-1080-project
+**Samuel Kimaru**  
+**Registration Number:** *[202601196]*
+
+**LisaMarie Wanderwa**  
+**Registration Number:** *[Insert registration number if required]*
