@@ -1,18 +1,12 @@
 
 
+
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 from pathlib import Path
-import os
 
-@st.cache_data
-def load_data():
-    base_dir = Path(os.getcwd()).parent
-    data_path = base_dir / "C:\\Users\\Lisamarie\\.jupyter\\DSA-1080-project\\data\\processed\\crime_data_cleaned.csv"
-    return pd.read_csv(data_path)
 
-df = load_data()
 
 st.set_page_config(
     page_title="West Midlands Crime Dashboard",
@@ -20,69 +14,295 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🚔 West Midlands Crime Dashboard")
-st.write("Interactive dashboard for exploring crime data.")
 
-st.header("First 5 Rows of the Dataset")
-st.dataframe(df.head())
 
-st.header("Dataset Overview")
+@st.cache_data
+def load_data():
 
-col1, col2 = st.columns(2)
-
-col1.metric("Total Records", len(df))
-col2.metric("Total Columns", len(df.columns))
-
-if "Crime type" in df.columns:
-
-    st.sidebar.header("Filter")
-
-    selected_crime = st.sidebar.selectbox(
-        "Select Crime Type",
-        ["All"] + sorted(df["Crime type"].dropna().unique())
+    data_path = Path(
+        r"C:\Users\Lisamarie\.jupyter\DSA-1080-project\data\processed\crime_data_cleaned.csv"
     )
 
-    if selected_crime != "All":
-        df = df[df["Crime type"] == selected_crime]
+    return pd.read_csv(data_path)
 
 
+df = load_data()
+
+
+
+st.title("🚔 West Midlands Crime Dashboard")
+
+st.markdown("""
+### About this dashboard
+
+This interactive dashboard explores West Midlands crime data.
+It provides insights into:
+
+- Crime patterns
+- Most common crime categories
+- Crime outcomes
+- Trends over time
+""")
+
+st.divider()
+
+
+
+st.sidebar.header("🔎 Filters")
+
+
+filtered_df = df.copy()
+
+
+# Crime filter
 if "Crime type" in df.columns:
 
-    st.header("Crime Count by Type")
+    crime_options = sorted(
+        df["Crime type"]
+        .dropna()
+        .unique()
+    )
 
-    crime_counts = df["Crime type"].value_counts()
+    selected_crime = st.sidebar.multiselect(
+        "Select Crime Type",
+        crime_options
+    )
 
-    fig, ax = plt.subplots(figsize=(10,5))
-    crime_counts.plot(kind="bar", ax=ax)
+    if selected_crime:
+        filtered_df = filtered_df[
+            filtered_df["Crime type"]
+            .isin(selected_crime)
+        ]
 
-    ax.set_xlabel("Crime Type")
-    ax.set_ylabel("Number of Crimes")
 
-    st.pyplot(fig)
-
+# Outcome filter
 if "Last outcome category" in df.columns:
 
-    st.header("Crime Outcomes")
+    outcome_options = sorted(
+        df["Last outcome category"]
+        .dropna()
+        .unique()
+    )
 
-    outcome_counts = df["Last outcome category"].value_counts()
+    selected_outcome = st.sidebar.multiselect(
+        "Select Outcome",
+        outcome_options
+    )
+
+    if selected_outcome:
+        filtered_df = filtered_df[
+            filtered_df["Last outcome category"]
+            .isin(selected_outcome)
+        ]
+
+
+
+
+st.header("📊 Key Statistics")
+
+
+col1, col2, col3, col4 = st.columns(4)
+
+
+col1.metric(
+    "Total Crimes",
+    f"{len(filtered_df):,}"
+)
+
+
+if "Crime type" in filtered_df.columns:
+
+    col2.metric(
+        "Crime Categories",
+        filtered_df["Crime type"].nunique()
+    )
+
+
+    col3.metric(
+        "Most Common Crime",
+        filtered_df["Crime type"].mode()[0]
+    )
+
+
+if "Last outcome category" in filtered_df.columns:
+
+    col4.metric(
+        "Outcomes",
+        filtered_df["Last outcome category"].nunique()
+    )
+
+
+st.divider()
+
+
+
+
+if "Crime type" in filtered_df.columns:
+
+    st.header("📌 Top Crime Types")
+
+
+    crime_counts = (
+        filtered_df["Crime type"]
+        .value_counts()
+        .head(10)
+    )
+
 
     fig, ax = plt.subplots(figsize=(10,5))
-    outcome_counts.plot(kind="bar", ax=ax)
 
-    ax.set_xlabel("Outcome")
-    ax.set_ylabel("Count")
+
+    crime_counts.sort_values().plot(
+        kind="barh",
+        ax=ax
+    )
+
+
+    ax.set_xlabel(
+        "Number of Crimes"
+    )
+
+    ax.set_ylabel(
+        "Crime Type"
+    )
+
 
     st.pyplot(fig)
-st.header("Summary Statistics")
-st.write(df.describe(include="all"))
-st.header("Filtered Dataset")
-st.dataframe(df)
 
-csv = df.to_csv(index=False).encode("utf-8")
+
+
+
+if "Last outcome category" in filtered_df.columns:
+
+
+    st.header("⚖️ Crime Outcomes")
+
+
+    outcome_counts = (
+        filtered_df["Last outcome category"]
+        .value_counts()
+        .head(10)
+    )
+
+
+    fig, ax = plt.subplots(figsize=(10,5))
+
+
+    outcome_counts.plot(
+        kind="bar",
+        ax=ax
+    )
+
+
+    ax.set_xlabel(
+        "Outcome"
+    )
+
+    ax.set_ylabel(
+        "Count"
+    )
+
+
+    plt.xticks(
+        rotation=45,
+        ha="right"
+    )
+
+
+    st.pyplot(fig)
+
+
+
+
+possible_dates = [
+    "Month",
+    "month",
+    "Date",
+    "date"
+]
+
+
+date_column = None
+
+
+for col in possible_dates:
+
+    if col in filtered_df.columns:
+        date_column = col
+
+
+
+if date_column:
+
+
+    st.header("📈 Crime Trend Over Time")
+
+
+    filtered_df[date_column] = pd.to_datetime(
+        filtered_df[date_column]
+    )
+
+
+    trend = (
+        filtered_df
+        .groupby(date_column)
+        .size()
+    )
+
+
+    fig, ax = plt.subplots(figsize=(12,5))
+
+
+    trend.plot(
+        kind="line",
+        marker="o",
+        ax=ax
+    )
+
+
+    ax.set_xlabel(
+        "Date"
+    )
+
+    ax.set_ylabel(
+        "Number of Crimes"
+    )
+
+
+    st.pyplot(fig)
+
+
+
+
+st.divider()
+
+
+st.header("📋 Dataset Preview")
+
+
+st.dataframe(
+    filtered_df.head(20),
+    use_container_width=True
+)
+
+
+
+
+st.header("📑 Summary Statistics")
+
+
+st.dataframe(
+    filtered_df.describe(include="all"),
+    use_container_width=True
+)
+csv = filtered_df.to_csv(
+    index=False
+).encode("utf-8")
+
 
 st.download_button(
-    label="📥 Download Filtered Data",
+    label="📥 Download Filtered Dataset",
     data=csv,
-    file_name="filtered_crime_data.csv",
+    file_name="west_midlands_filtered_crime.csv",
     mime="text/csv"
 )
