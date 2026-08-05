@@ -4,13 +4,13 @@
 
 This project analyzes crime data reported by West Midlands Police for October 2024 using Python. The project involves cleaning the dataset, performing exploratory data analysis (EDA), creating visualizations, and developing an interactive Streamlit dashboard to present the findings.
 
----
+
 
 ## Problem Statement
 
 Crime datasets contain large amounts of information that can be difficult to interpret without proper analysis. This project aims to analyze reported crimes to identify common crime types, crime hotspots, neighbourhoods with the highest crime rates, and the outcomes of reported crimes. The findings can help provide a better understanding of crime patterns within the West Midlands.
 
----
+
 
 ## Dataset
 
@@ -31,7 +31,7 @@ Crime datasets contain large amounts of information that can be difficult to int
 - Crime Type
 - Last Outcome Category
 
----
+
 
 ## Tools Used
 
@@ -44,7 +44,6 @@ Crime datasets contain large amounts of information that can be difficult to int
 - Streamlit
 - Git & GitHub
 
----
 
 ## Data Cleaning
 
@@ -58,7 +57,7 @@ The following cleaning steps were performed:
 - Created a cleaned dataset for analysis.
 - Exported the cleaned dataset to the `data/processed` folder.
 
----
+
 
 ## Analysis Questions
 
@@ -75,7 +74,7 @@ The project answered the following questions:
 9. Which crime types are most common in the top 10 high-crime neighbourhoods?
 10. What percentage of crimes resulted in each outcome category?
 
----
+
 
 ## Visualizations
 
@@ -91,7 +90,7 @@ The project includes the following visualizations:
 
 All visualizations are stored in the **visuals/** folder.
 
----
+
 
 ## Key Insights
 
@@ -101,7 +100,7 @@ All visualizations are stored in the **visuals/** folder.
 4. Different crime types showed different outcome patterns, as observed in the heatmap.
 5. Crime locations formed geographical clusters rather than being evenly distributed.
 
----
+
 
 ## Recommendations
 
@@ -113,7 +112,7 @@ Based on the analysis, the following recommendations are suggested:
 - Investigate crime categories with low resolution rates to improve policing strategies.
 - Continue collecting and analysing crime data to monitor trends over time.
 
----
+
 
 ## How to Run the Project
 
@@ -149,9 +148,8 @@ jupyter notebook
 python -m streamlit run app.py
 ```
 
----
 
-## Author
+## Authors
 
 **Samuel Kimaru**  
 **Registration Number:** *[202601196]*
